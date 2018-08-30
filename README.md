@@ -1,3 +1,6 @@
+# java-runner
+
+This is a docker that extends mkunze/openjdk-alpine:11 with some tools i use for gitlab-ci
 
 ## Usage
 
