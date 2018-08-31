@@ -15,6 +15,7 @@ COPY --from=ecr-login /root/go/bin/docker-credential-ecr-login /usr/local/bin/do
 RUN set -exo pipefail \
     && apk add --no-cache \
         ca-certificates \
+        openssh-client \
         python3 \
     # Setup ecr-login
     && mkdir -p /root/.docker \
