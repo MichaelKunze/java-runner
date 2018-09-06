@@ -27,7 +27,7 @@ RUN set -exo pipefail \
     && echo "echo \"Hello from java-runner\"" > ${ENV} \
     && echo "eval \$(ssh-agent)" >> ${ENV} \
     && cd /root \
-    && ln -s .profile .ashrc \
+    && ln -s .ashrc .profile \
     # Install aws
     && wget --output-document=/tmp/awscli-bundle.zip \
         "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" \
