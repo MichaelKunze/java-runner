@@ -4,6 +4,8 @@ This is a docker that extends mkunze/openjdk-alpine:11 with some tools i use for
 
 ## Usage
 
+You can use ``setup_ssh.sh s3-bucket-name/path/to/priv/key`` to setup the ssh-agent. After that you can easily connect via ssh to your favorite server.
+
 Best used with [https://github.com/GoogleContainerTools/jib/tree/master/jib-gradle-plugin](jib)
 
 ```

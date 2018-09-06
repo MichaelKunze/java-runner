@@ -10,7 +10,10 @@ RUN set -exo pipefail \
 
 FROM mkunze/openjdk-alpine:11
 
+ENV ENV=/root/.ashrc
+
 COPY --from=ecr-login /root/go/bin/docker-credential-ecr-login /usr/local/bin/docker-credential-ecr-login
+COPY bin/setup_ssh.sh /usr/local/bin
 
 RUN set -exo pipefail \
     && apk add --no-cache \
@@ -20,6 +23,8 @@ RUN set -exo pipefail \
     # Setup ecr-login
     && mkdir -p /root/.docker \
     && echo "{ \"credsStore\": \"ecr-login\" }" > /root/.docker/config.json \
+    # Setup ssh-agent
+    && echo "eval \$(ssh-agent)" > /root/.ashrc \
     # Install aws
     && wget --output-document=/tmp/awscli-bundle.zip \
         "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" \
