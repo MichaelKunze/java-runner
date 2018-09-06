@@ -31,6 +31,4 @@ RUN set -exo pipefail \
         "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" \
     && unzip /tmp/awscli-bundle.zip -d /tmp \
     && /usr/bin/python3 /tmp/awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws \
-    && rm -rf /tmp/awscli-bundle* \
-    # Cleanup
-    && rm -rf /var/cache/apk/*
+    && rm -rf /tmp/awscli-bundle*
