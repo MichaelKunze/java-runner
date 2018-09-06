@@ -24,7 +24,8 @@ RUN set -exo pipefail \
     && mkdir -p /root/.docker \
     && echo "{ \"credsStore\": \"ecr-login\" }" > /root/.docker/config.json \
     # Setup ssh-agent
-    && echo "eval \$(ssh-agent)" > /root/.ashrc \
+    && echo "echo \"Hello from java-runner\"" > /root/.ashrc \
+    && echo "eval \$(ssh-agent)" >> /root/.ashrc \
     # Install aws
     && wget --output-document=/tmp/awscli-bundle.zip \
         "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" \
