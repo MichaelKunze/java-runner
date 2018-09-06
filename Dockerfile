@@ -11,9 +11,11 @@ RUN set -exo pipefail \
 
 FROM mkunze/openjdk-alpine:11
 
+WORKDIR /root
+
 COPY --from=ecr-login /root/go/bin/docker-credential-ecr-login /usr/local/bin/docker-credential-ecr-login
 COPY --from=ecr-login /usr/bin/envsubst /usr/local/bin/envsubst
-COPY bin/setup_ssh.sh /usr/local/bin
+COPY bin/* /usr/local/bin/
 
 RUN set -exo pipefail \
     && apk add --no-cache \
