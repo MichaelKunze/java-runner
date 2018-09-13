@@ -1,34 +1,19 @@
-FROM mkunze/openjdk-alpine:11 as ecr-login
-RUN set -exo pipefail \
-    && apk add --no-cache \
-        gettext \
-        git \
-        go \
-        make \
-        musl-dev \
-    && go get -u github.com/awslabs/amazon-ecr-credential-helper/ecr-login/cli/docker-credential-ecr-login
+FROM mminks/dind-aech:latest
 
+ARG JDK_BUILD="28"
 
-FROM mkunze/openjdk-alpine:11
+ENV LANG C.UTF-8
+ENV JAVA_HOME="/opt/java/current"
+ENV PATH="${PATH}:${JAVA_HOME}/bin"
 
-WORKDIR /root
-
-COPY --from=ecr-login /root/go/bin/docker-credential-ecr-login /usr/local/bin/docker-credential-ecr-login
-COPY --from=ecr-login /usr/bin/envsubst /usr/local/bin/envsubst
-COPY bin/* /usr/local/bin/
+# Download from http://jdk.java.net/11/
 
 RUN set -exo pipefail \
-    && apk add --no-cache \
-        ca-certificates \
-        libintl \
-        openssh-client \
-        python3 \
-    # Setup ecr-login
-    && mkdir -p /root/.docker \
-    && echo "{ \"credsStore\": \"ecr-login\" }" > /root/.docker/config.json \
-    # Install aws
-    && wget --output-document=/tmp/awscli-bundle.zip \
-        "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" \
-    && unzip /tmp/awscli-bundle.zip -d /tmp \
-    && /usr/bin/python3 /tmp/awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws \
-    && rm -rf /tmp/awscli-bundle*
+    && wget --output-document /tmp/openjdk.tar.gz \
+        https://download.java.net/java/early_access/alpine/${JDK_BUILD}/binaries/openjdk-11+${JDK_BUILD}_linux-x64-musl_bin.tar.gz \
+    && mkdir -p /opt/java \
+    && cd /opt/java \
+    && tar --extract --gzip --verbose --no-same-owner --file=/tmp/openjdk.tar.gz \
+    && ln -s /opt/java/$(ls -1) /opt/java/current \
+    && rm /opt/java/current/lib/src.zip \
+    && rm /tmp/openjdk.tar.gz
