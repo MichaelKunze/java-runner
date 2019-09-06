@@ -1,13 +1,13 @@
 FROM mminks/dind-aech:latest
 
-ARG JDK="13"
-ARG BUILD="19"
+ARG JDK="14"
+ARG BUILD="12"
 
 ENV LANG C.UTF-8
 ENV JAVA_HOME="/opt/java/current"
 ENV PATH="${PATH}:${JAVA_HOME}/bin"
 
-# Download from http://jdk.java.net/13/
+# Download from http://jdk.java.net
 
 RUN set -exo pipefail \
     && wget --output-document /tmp/openjdk.tar.gz \
