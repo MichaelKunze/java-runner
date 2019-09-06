@@ -1,20 +1,17 @@
 FROM mminks/dind-aech:latest
 
-ARG JDK="14"
-ARG BUILD="12"
-
 ENV LANG C.UTF-8
 ENV JAVA_HOME="/opt/java/current"
 ENV PATH="${PATH}:${JAVA_HOME}/bin"
 
-# Download from http://jdk.java.net
+# Download from https://www.azul.com/downloads/zulu-community/?&version=java-11-lts
 
 RUN set -exo pipefail \
-    && wget --output-document /tmp/openjdk.tar.gz \
-        https://download.java.net/java/early_access/alpine/${BUILD}/binaries/openjdk-${JDK}-ea+${BUILD}_linux-x64-musl_bin.tar.gz \
+    && wget --output-document /tmp/zulu.tar.gz \
+        https://cdn.azul.com/zulu/bin/zulu11.33.15-ca-jdk11.0.4-linux_musl_x64.tar.gz \
     && mkdir -p /opt/java \
     && cd /opt/java \
-    && tar --extract --gzip --verbose --no-same-owner --file=/tmp/openjdk.tar.gz \
+    && tar --extract --gzip --verbose --no-same-owner --file=/tmp/zulu.tar.gz \
     && ln -s /opt/java/$(ls -1) /opt/java/current \
     && rm /opt/java/current/lib/src.zip \
-    && rm /tmp/openjdk.tar.gz
+    && rm /tmp/zulu.tar.gz
