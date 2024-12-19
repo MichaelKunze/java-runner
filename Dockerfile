@@ -7,4 +7,4 @@ RUN set -exo pipefail \
     && wget --directory-prefix=/etc/apk/keys https://cdn.azul.com/public_keys/alpine-signing@azul.com-5d5dc44c.rsa.pub \
     && echo "https://repos.azul.com/zulu/alpine" >> /etc/apk/repositories \
     && apk add --no-cache \
-        zulu11-jdk-headless
+        zulu21-jdk-headless
